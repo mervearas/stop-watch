@@ -1,25 +1,36 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
-function App() {
+export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <StopWatch/>
     </div>
   );
 }
 
-export default App;
+const StopWatch = () => {
+  const [count, setCount] = useState(0);
+  const [isStopWatchRunning, setStopWatchRunning] = useState(false);
+
+  useEffect(() => {
+    let intervalid;
+    if(isStopWatchRunning) {
+      intervalid = setInterval(() => {
+         setCount(oldCount => oldCount + 1)
+      }, 1000)
+    }
+
+    return () => clearInterval(intervalid);
+  }, [isStopWatchRunning])
+
+  return(
+    <div>
+      <div>{count}</div>
+      <button onClick={() => setStopWatchRunning(true)}>Start</button>
+      <button onClick={() => setStopWatchRunning(false)}>Stop</button>
+    </div>
+  )
+}
+
+
